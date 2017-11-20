@@ -36,8 +36,10 @@ public class Restriction extends PluginBase implements Listener{
         if(this.setting.getString("Restriction").equals("true")) {
             Player player = event.getPlayer();
             String name = player.getName();
-            if(!(this.player.getString(name) != null)) {
+            if(!(this.player.exists(name))) {
             	event.isCancelled();
+            	String kickmessage = this.setting.getString("kickMessage");
+            	event.setKickMessage(kickmessage);
             }
         }
 	}
@@ -81,8 +83,9 @@ public class Restriction extends PluginBase implements Listener{
 							}
 						}
 						catch(ArrayIndexOutOfBoundsException e){
-							sender.sendMessage("§f>>>§a[RT]§f/restriction");
+							sender.sendMessage("§f>>>§a[RT]§f/restriction on");
 					  }
+						break;
 
 					case "off":
 						try {
@@ -104,8 +107,9 @@ public class Restriction extends PluginBase implements Listener{
 							}
 						}
 						catch(ArrayIndexOutOfBoundsException e){
-							sender.sendMessage("§f>>>§a[RT]§f/restriction");
+							sender.sendMessage("§f>>>§a[RT]§f/restriction off");
 					  }
+						break;
 
 					case "add":
 						try {
@@ -122,8 +126,9 @@ public class Restriction extends PluginBase implements Listener{
 							}
 						}
 						catch(ArrayIndexOutOfBoundsException e){
-							sender.sendMessage("§f>>>§a[RT]§f/restriction");
+							sender.sendMessage("§f>>>§a[RT]§f/restriction add 名前");
 					  }
+						break;
 
 					case "del":
 						try {
@@ -144,8 +149,9 @@ public class Restriction extends PluginBase implements Listener{
 							}
 						}
 						catch(ArrayIndexOutOfBoundsException e){
-							sender.sendMessage("§f>>>§a[RT]§f/restriction");
+							sender.sendMessage("§f>>>§a[RT]§f/restriction del 名前");
 					  }
+						break;
 
 					case "list":
 						try {
@@ -157,8 +163,9 @@ public class Restriction extends PluginBase implements Listener{
                             }
 						}
 						catch(ArrayIndexOutOfBoundsException e){
-							sender.sendMessage("§f>>>§a[RT]§f/restriction");
+							sender.sendMessage("§f>>>§a[RT]§f/restriction list");
 					  }
+						break;
 
 					}
 				}
@@ -172,3 +179,4 @@ public class Restriction extends PluginBase implements Listener{
 	}
 
 }
+
