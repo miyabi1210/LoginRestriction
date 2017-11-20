@@ -53,7 +53,8 @@ public class Restriction extends PluginBase implements Listener{
 							if(player.isOp()) {
 								if(this.setting.getString("Restriction").equals("false")) {
 									for(Player all : Server.getInstance().getOnlinePlayers().values()){
-										if(!(all.isOp())) {
+										String oname = all.getName();
+										if(!(this.player.getString(oname) != null)) {
 											String kickmessage = this.setting.getString("kickMessage");
 											all.kick(kickmessage, false);
 										}
@@ -65,7 +66,8 @@ public class Restriction extends PluginBase implements Listener{
 									player.sendMessage("§f>>>§a[RT]§f既にLoginを制限しています");
 								}else {
 									for(Player all : Server.getInstance().getOnlinePlayers().values()){
-										if(!(all.isOp())) {
+										String oname = all.getName();
+										if(!(this.player.getString(oname) != null)) {
 											String kickmessage = this.setting.getString("kickMessage");
 											all.kick(kickmessage, false);
 										}
@@ -107,12 +109,17 @@ public class Restriction extends PluginBase implements Listener{
 
 					case "add":
 						try {
-							Player player = (Player)sender;
-                             if(player.isOp()) {
-
-                             }else {
-                            	 player.sendMessage("§f>>>§a[RT]§f使用する権限がありません");
-                             }
+							if(args[1] != null){
+								Player player = (Player)sender;
+	                            if(player.isOp()) {
+                                  String name = args[1];
+                                  this.player.set(name, name);
+                                  this.player.save();
+                                  player.sendMessage("§f>>>§a[RT]§fplayerを追加しました");
+	                            }else {
+	                           	 player.sendMessage("§f>>>§a[RT]§f使用する権限がありません");
+	                            }
+							}
 						}
 						catch(ArrayIndexOutOfBoundsException e){
 							sender.sendMessage("§f>>>§a[RT]§f/restriction");
@@ -120,12 +127,21 @@ public class Restriction extends PluginBase implements Listener{
 
 					case "del":
 						try {
-							Player player = (Player)sender;
-                            if(player.isOp()) {
-
-                            }else {
-                           	 player.sendMessage("§f>>>§a[RT]§f使用する権限がありません");
-                            }
+							if(args[1] != null){
+								Player player = (Player)sender;
+	                            if(player.isOp()) {
+	                            	String name = args[1];
+	                            	if(this.player.getString(name) != null) {
+	                            		this.player.remove(name);
+		                            	this.player.save();
+		                            	player.sendMessage("§f>>>§a[RT]§fplayerを除去しました");
+	                            	}else {
+	                            		player.sendMessage("§f>>>§a[RT]§fそのplayerは追加されていません");
+	                            	}
+	                            }else {
+	                           	 player.sendMessage("§f>>>§a[RT]§f使用する権限がありません");
+	                            }
+							}
 						}
 						catch(ArrayIndexOutOfBoundsException e){
 							sender.sendMessage("§f>>>§a[RT]§f/restriction");
